@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<style>
+#footer2 {
+    	position: fixed;
+    	right :50%;
+    	bottom: 10px;
+    	width: 50%;
+	}
+#footer1 {
+		position: fixed;
+		left:0%;
+    	bottom: 50px;
+    	width: 100%;
+
+}
+
+
+</style>
+<body>
+
+<form id="frm1" >
+           <h1>Select Hero</h1>
+         <div id = "Heroess" >        
+  <input type="radio" id="addHero0" name="hero" value="sven" checked> sven
+  <input type="radio" id="addHero1" name="hero" value="juggernaut"> juggernaut
+  <input type="radio" id="addHero2" name="hero" value="OD"> OD
+  </div><br>  
+</form>
+
+
+        
+         <form id="frm2" > 
+        <h1>Select Abilities</h1>
+         <div id = "Abilitiess" > 
+  <input type="checkbox" id="addAbilitybutton0" name="abilities" value="stun" checked> stun
+  <input type="checkbox" id="addAbilitybutton1" name="abilities" value="Blackhole"> Blackhole
+  <input type="checkbox" id="addAbilitybutton2" name="abilities" value="smoke"> smoke
+  <input type="checkbox" id="addAbilitybutton3" name="abilities" value="blink_strike"> blink_strike
+  </div><br> 
+  
+</form>
+
+
+<form id = "frm3" >
+ <input type="button" value="Submit" id="button2" onclick="validateAndShow()"> 
+
+<h1>Created Heroes Are: </h1>
+
+<ol id = "Created" > </ol>
+ 
+</form>
+
+
+	<div id="footer1">
+  <form>
+    <input id="heroname"  type="text" placeholder="HeroName" />
+    <select id = "herotype" placeholder = "Select herotype">
+    	<option value="Strength" id = "strength">Strength</option>
+    	<option value="Agility" id = "agility">Agility</option>
+    	<option value="Intelligence" id = "intelligence">Intelligence</option>
+    </select>
+    <input id="movementspeed"  type="Number" placeholder="Movementspeed" />
+    <input id="armor"  type="Number" placeholder="Armor" />
+    <input id="basemana"  type="Number" placeholder="BaseMana" />
+    <input id="basehp"  type="Number" placeholder="BaseHP" />
+    <input id="button1" type="button" value="CreateHero" onclick="validateAndInsertinHeroes()" />
+  </form>
+  </div>
+
+<div id="footer2">
+  <form>
+    <input id="ability_name"  type="text" placeholder="AbilityName" />
+    <input id="cooldown" type="Number" placeholder="Cooldown in(sec)" />
+    <input id="manacost" type="Number" placeholder="ManaCost" />
+    <input type="button" value="CreateAbility" onclick="validateAndInsertinAbilities()" />
+  </form>
+  </div>
+
+<script>
+
+
+
+heroes = [{"heroname1" : "sven" , "herotype1" : "Strength", "basehp1" : "900" ,"basemana1" : "300", "armor1" : "4" , "movementSpeed1" : "300"  },{"heroname1" : "juggernaut" , "herotype1" : "agility", "basehp1" : "700" ,"basemana1" : "400", "armor1" : "2" , "movementSpeed1" : "310"  },{"heroname1" : "OD" , "herotype1" : "Intelligence", "basehp1" : "800" ,"basemana1" : "700", "armor1" : "1" , "movementSpeed1" : "315"  }];
+
+abilities = [{"abilityname1" : "stun" , "cooldown1" : "5", "manacost1" : "60"},{"abilityname1" : "Blackhole" , "cooldown1" : "100", "manacost1" : "160"},{"abilityname1" : "smoke" , "cooldown1" : "10", "manacost1" : "100"},{"abilityname1" : "blink_strike" , "cooldown1" : "8", "manacost1" : "60"}]
+
+var heroInput  = document.getElementById("heroname");
+var basehpInput  = document.getElementById("basehp");
+var basemanaInput  = document.getElementById("basemana");
+var armorInput  = document.getElementById("armor");
+var movementSpeedInput  = document.getElementById("movementspeed");
+var heroType  = document.getElementById("herotype").value;
+var abilityInput  = document.getElementById("ability_name");
+var cooldownInput  = document.getElementById("cooldown");
+var manacostInput  = document.getElementById("manacost");
+var cboxCount = 3;
+var rowNum = 4;
+var CoolDownCount = 0;
+var heroesAbilities = new Array;
+
+
+function validateAndInsertinHeroes() {
+		var new_hero = {"heroname1" : "sven" , "herotype1" : "Strength", "basehp1" : "900" ,"basemana1" : "300", "armor1" : 			"4" 	, "movementSpeed1" : "300"  }
+				new_hero.heroname1 = heroInput.value;
+				new_hero.basehp1  = basehpInput.value;
+				new_hero.basemana1 = basemanaInput.value;
+				new_hero.armor1  = armorInput.value;
+				new_hero.movementSpeed1 = movementSpeedInput.value;	
+				new_hero.herotype1 = document.getElementById("herotype").value;
+
+				
+	if(heroInput.value.length == 0 || basehpInput.value.length == 0 || basemanaInput.value.length == 0 || armorInput == 0 || movementSpeedInput.value.length ==0 ){
+		alert ("Empty Name");
+	}
+	else{
+		heroes.push(new_hero);
+    showHeroes();
+}
+}
+
+
+function hero(name, type, baseMana, heroAbilities)
+      {
+        this.name = name
+        this.type = type
+        this.baseMana = baseMana
+        this.heroAbilities = heroAbilities
+      }
+
+function validateAndInsertinAbilities() {
+		var new_ability = {"abilityname1" : "stun" , "cooldown1" : "5", "manacost1" : "60"}
+				new_ability.abilityname1 = abilityInput.value;
+				new_ability.cooldown1  = cooldown.value;
+				new_ability.manacost1 = manacost.value;
+				
+		if( abilityInput.value.length == 0 || cooldownInput.value.length == 0 || manacostInput.value.length == 0 ){
+		alert ("Empty Name");
+		}
+		else{
+		abilities.push(new_ability);
+    showAbilities();
+		}
+}
+
+function showHeroes() {
+
+var heroName = document.getElementById("heroname").value;
+
+
+var checkbox = document.createElement('input');
+      checkbox.type = "radio";
+      checkbox.name = "hero";
+      checkbox.value = heroName;
+      checkbox.id = "addHero"+cboxCount;
+
+      var label = document.createElement('label')
+      label.htmlFor = heroName;
+      label.id = "heroLabel"+cboxCount;
+      label.appendChild(document.createTextNode(heroName));
+
+      Heroess.appendChild(checkbox);
+      Heroess.appendChild(label);
+
+
+
+      cboxCount =+ 1;
+      debugger
+	
+  }
+
+
+   function showAbilities(){
+
+      var abilityName = document.getElementById("ability_name").value;
+      console.log(abilityName);  
+
+      var checkbox1 = document.createElement('input');
+      checkbox1.type = "checkbox";
+      checkbox1.name = "abilities";
+      checkbox1.value = abilityName;
+      checkbox1.id = "addAbilitybutton"+rowNum;
+
+      var label1 = document.createElement('label')
+      label1.htmlFor = abilityName;
+      label1.id = "abilityLabel"+rowNum;
+      label1.appendChild(document.createTextNode(abilityName));
+
+      Abilitiess.appendChild(checkbox1);
+      Abilitiess.appendChild(label1);
+
+      rowNum += 1
+ 
+      }
+
+
+
+function validateAndShow()
+      {
+         var heroAbilities = new Array;
+         var totalManaCost = 0;
+         var CoolDownCount = 0;
+         var name = document.querySelector('input[name="hero"]:checked').value;
+         console.log(name);
+
+      for(var i=0; i<heroes.length;i++){
+          if(heroes[i].heroname1==name){
+              var type = heroes[i].herotype1;
+              var baseMana = heroes[i].basemana1;
+          }
+      }
+
+     
+         var maxManaPool = Number(baseMana) + 1000;
+       
+       var abilityName;
+       var counter = 0;
+       var chk_arr =  document.getElementsByName("abilities");
+       var chklength = chk_arr.length; 
+       
+
+
+        for(var k=0; k< chklength; k++)
+          {
+            if(chk_arr[k].checked == true)
+            {
+              counter += 1;
+              abilityName = document.getElementById("addAbilitybutton"+k).value
+              heroAbilities.push(abilityName)
+
+
+              for(var p=0; p<abilities.length;p++){
+          if(abilities[p].abilityname1==abilityName){  
+              var manaCost = abilities[p].manacost1 
+              totalManaCost += Number(manaCost)
+              var coolDown = abilities[p].cooldown1
+              if (Number(coolDown) > 0)
+                CoolDownCount += 1;
+          }
+      }
+
+              
+            }
+          }  
+           debugger;
+          if(totalManaCost > maxManaPool || CoolDownCount < 2 || counter !== 4 ) {
+              if(totalManaCost>maxManaPool){
+              alert("Your ManaPool is low");
+              }
+            else if(counter!==4){
+                alert("You can only select four abilities");
+            }
+            else {
+            
+              alert("You have selected 2 or more passive abilities");
+            }
+          }
+          else
+            {
+              heroesAbilities.push(new hero(name, type, baseMana, heroAbilities));
+                  var list = document.createElement('li');
+                  var All = document.getElementById('Created');
+                  var t1 = document.createTextNode("  Hero Name: "+name);
+                  list.appendChild(t1);
+                  var t2 = document.createTextNode("  Hero Type: "+type);
+                  list.appendChild(t2);
+                  var t3 = document.createTextNode("  Base Mana: "+baseMana);
+                  list.appendChild(t3);
+                  var t4 = document.createTextNode("  Abilities: "+heroAbilities);
+                  list.appendChild(t4);
+                  All.appendChild(list);
+            }
+
+}      
+
+
+
+
+
+
+/*import React from 'react';
+import './App.css';
+import $ from 'jquery';
+import './react-tabs.css';
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import ReactPaginate from 'react-paginate';
+
+
+var createReactClass = require('create-react-class');  //Removed React.createClass since it is deprecated.
+var App = createReactClass({
+  getInitialState: function() {
+    return {
+      username: [], 
+      listUrl: [],
+      all: [],
+      open: [],
+      merged: []
+    };
+  },
+
+handleChange: function(e) {
+    var value = e.target.value;
+    if(value == ""){
+      alert("Give Input pls");
+    }
+    else{
+    this.setState({source: 'https://api.github.com/search/repositories?q='+value+'&sort=stars&order=desc'});
+  }},
+
+
+handleSubmit: function() {
+
+    console.log(this.state.source);
+    $.get(this.state.source, function(result) {
+        var list = result;
+        var inputs = list.items;
+        if(inputs === undefined){
+      alert("Give valid Input")}
+    else{
+       
+       if (this.isMounted()) {
+        this.setState ({
+        username : list.items,
+    });
+    }
+
+} 
+}.bind(this));
+   
+},
+
+
+handlePullRequests: function(index) {
+        var url = index;
+        var all1 =[];
+        var open1 = [];
+        var merged1 =[];
+url = this.state.username[url].pulls_url.replace("{/number}","");  
+       console.log(url);      
+       $.get(url, function(result) {        
+       var url_list = result;     
+        if (this.isMounted()) {
+        this.setState ({
+        listUrl: url_list,
+    });
+
+    }
+    
+    this.state.listUrl.map(function(p_url,index) {all1.push(p_url.url)
+      if(p_url.state === "open" ){              //used return in function-array-callBack return
+        return open1.push(p_url.url);
+      }
+      else{
+        return merged1.push(p_url.url);
+      }
+  })
+  this.setState({
+    all: all1,
+    open: open1,
+    merged: merged1
+  })
+}.bind(this)); 
+},
+
+    
+  render: function(){
+    return (
+    
+      <div>
+      <Tabs>
+          <TabList>
+            <Tab>Repositories</Tab>
+            <Tab>PullRequests</Tab>
+          </TabList>
+
+
+      <TabPanel> 
+
+      <input id=" " type="text" onChange = {this.handleChange} />
+       <input type="submit" value="Submit" onClick = {this.handleSubmit} />
+       <table>
+       <style>{"table, th, td {border: 1px solid black; border-collapse: collapse;}"}</style>
+
+       <tbody>
+       <tr>
+          <th>Name</th>
+          <th>Owner</th>
+          <th>Number Of Stars</th>
+          <th>Number of Forks</th>
+          <th>Pull Requests</th>
+        </tr>
+        
+            {this.state.username.map((uname,index) => 
+        <tr key = {index}><td><a href={uname.owner.html_url}>{uname.name}</a></td>
+            <td>{uname.owner.login}</td>
+            <td>{uname.stargazers_count}</td>
+            <td>{uname.forks}</td>
+            <td><input type="submit" value= "show" onClick = {() => this.handlePullRequests(index)} /></td></tr>)}
+        </tbody>
+        </table>
+        </TabPanel>
+
+        <TabPanel>
+
+        <Tabs>
+          <TabList>
+            <Tab>All</Tab>
+            <Tab>Open</Tab>
+            <Tab>Merged</Tab>
+          </TabList>
+          <TabPanel>
+          <table>
+          <tbody>
+          <tr>
+            <th>All</th>
+          </tr>  
+           {this.state.all.map((uname,index) =>
+            <tr key = {index}><td><a href={uname}>{uname}</a></td></tr>)}
+            
+          </tbody>
+          </table>
+
+          </TabPanel>
+          <TabPanel>
+              <table>
+          <tbody>
+          <tr>
+            <th>Open</th>
+          </tr>  
+           {this.state.open.map((uname,index) =>
+            <tr key = {index}><td><a href={uname}>{uname}</a></td></tr>)}
+          </tbody>
+          </table>
+
+          </TabPanel>
+          <TabPanel>
+              <table>
+          <tbody>
+          <tr>
+            <th>Merged</th>
+          </tr>  
+          {this.state.merged.map((uname,index) =>
+            <tr key = {index}><td><a href={uname}>{uname}</a></td></tr>)}
+            
+          </tbody>
+          </table>
+
+          </TabPanel>
+          </Tabs>
+        </TabPanel>
+        </Tabs>
+      </div>
+     
+    );
+  }
+});
+
+
+export default App;
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*var a = document.getElement
+
+
+ById("button3");
+a.addEventListener("click", selectAbilities);*/
+
+/*function showHeroId(s) { 
+  heroId = s[s.selectedIndex].id; // get id
+}*/
+
+/*function showAbilities() {
+    var ab = document.getElementById('frm2');
+    for(var k = 0; k < abilities.length; i++ ){
+    var cbox = document.createElement('input');
+    cbox.type = 'checkbox';
+    cbox.name = abilities[k].abilityname1;
+    cbox.value = abilities[k].abilityname1;
+    cbox.id = "id"+k;
+    debugger;
+
+    document.body.appendChild(cbox);
+  }
+}*/
+
+/*for(var i = 0; i < Object.keys(heroes).length; i++) {
+    var opt = document.createElement('option');
+    opt.id = "hero_options";
+    opt.innerHTML = heroes[i].heroname1;
+    opt.value = heroes[i].heroname1;
+    opt.setAttribute('id','hero'+(i+
+        1));
+    sel.appendChild(opt);*/
+
+
+
+
+/*function selectAbilities(){
+    var mybr = document.createElement('br');
+    
+    document.getElementById('abilities').style.display = 'block';
+    var sel1 = document.getElementById('frm2');
+    for(var i = 0; i < Object.keys(abilities).length; i++) {
+        
+       var opt1 = document.createElement('input');
+        opt1.type = 'checkbox';
+        var c = 'ability'+(i+1);
+        var opt2 = document.createElement('label');
+        opt2.appendChild(document.createTextNode(abilities[i].abilityname1));
+        opt1.setAttribute('class','checked');
+        opt1.setAttribute('id','ability'+(i+1));
+    	   opt2.appendChild(opt1);
+         sel1.appendChild(opt2);
+        opt2.appendChild(mybr); 
+    }
+}*/
+
+</script>
+
+</body>
+</html>
+
+
+
+
+<!-- abilityInput  : document.getElementById("abitlityname");
+			cooldownInput  : document.getElementById("cooldown");
+			manacostInput  : document.getElementById("manacost"); 
+			+'-'+'Cool Down-'+abilities[c].cooldown-->

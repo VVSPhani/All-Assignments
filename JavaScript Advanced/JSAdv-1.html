@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div >
+<p>Insert A number to check whether its a prime number or not.</p>
+<input id="num"  type="number" />
+<input type="submit" value="submit" id ="button1" />
+
+</div>
+</body>	
+
+<script>
+var isPrime = document.getElementById("button1");
+isPrime.addEventListener("click",Prime);
+
+function Prime(){
+	var number = document.getElementById("num").value;
+	bool = PrimeCheck(number);
+	console.log(bool);
+}
+
+var PrimeCheck = (function(){  
+  var answers = {};
+  return function(value){
+    if (answers[value] != null) {
+      console.log('had in cache...');
+      return answers[value];
+    }
+    var prime = value != 1; // 1 can never be prime
+    for (var i = 2; i < value; i++) {
+      if (value % i == 0) {
+        prime = false;
+      	break
+    }
+      
+    }
+    console.log('hadn\'t in cache...');
+    return answers[value] = prime;
+  };
+}());
+
+</script>
+
+
+</html>

@@ -1,0 +1,20 @@
+<%= link_to 'Add New Skill', new_skill_path %>
+
+<table>
+  <tr>
+    <th>Skill Name</th>
+  </tr>
+
+ <% @skill.each do |m| %>
+    <tr>
+      <td><%= m.skill_name %></td>
+    
+      <td><%= link_to 'Show', skill_path(m) %></td>
+    
+      <td><%= link_to 'Destroy', skill_path(m),
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+   <td> <%= link_to 'Employee_index', employees_path %>
+</table>

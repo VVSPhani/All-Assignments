@@ -1,0 +1,31 @@
+<h1> Details </h1>
+<%= link_to 'Add New Employee', new_employee_path %>  
+
+
+<table>
+<thead>
+<tr>
+  <th>Employee_Name:</th>
+  <th>Employee_Skills:</th>
+  <th>Team_Lead: </th>
+  <th>Project_lead: </th>
+  <th>Total_Skills: </th>
+</tr>  
+  </thead>
+<tr>
+<tbody>
+  <td> <%= @employee.EmpName%></td>
+   <td><% @employee.skills.each do |x| %> 
+  <%= x.skill_name %>
+  <% end %></td>
+  <td> <%= @employee.team_lead.team_lead_name %></td>
+  <td> <%= @employee.project.project_name %></td>
+
+  <td><%= @employee.skills.count%> </td>
+ </tr>
+ 
+ </tbody>
+ </table>
+
+<%= link_to 'Edit', edit_employee_path(@employee) %>  
+<%= link_to 'Back', employees_path %> 

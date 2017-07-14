@@ -1,0 +1,33 @@
+<%= link_to 'Add New Employee', new_employee_path %>
+
+<table>
+  <tr>
+    <th>Employee Name</th>
+    <th>Team_lead </th>
+    <th>Project</th>
+    <th>Skills</th>
+    
+  
+  </tr>
+
+ <% @employees.each do |m| %>
+    <tr>
+      <td><%= m.EmpName %></td>
+      <td><%= m.team_lead.team_lead_name %> </td>
+      <td><%= m.project.project_name %> </td>
+      <td><% m.skills.each do |x| %>
+  	  <td><%= x.skill_name %></td> 
+  <% end %>
+  <td><%= link_to 'Show', employee_path(m) %></td>
+    
+      <td><%= link_to 'Destroy', employee_path(m),
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %></td>
+
+
+    </tr>
+    </tr>
+  <% end %>
+<td><%= link_to 'Team_leads', team_leads_path %></td>
+
+</table>

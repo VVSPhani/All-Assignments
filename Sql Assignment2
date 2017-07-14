@@ -1,13 +1,23 @@
 create table accidents(states text,in2008 int,in2009 int,in2010 int,in2011 int,in2012 int,in2013 int,in2014 int,in2015 int)
 copy accidents from '/home/user/accidents.csv' delimiter ',' csv;
 
-create table topthree(top2008,top2009,top2010,top2011,top2012,top2013,top2014,top2015)
 
-insert into topthree(top2008) select states from accidents order by in2008 desc limit 3
-insert into topthree(top2009) select states from accidents order by in2009 desc limit 3
-insert into topthree(top2010) select states from accidents order by in2010 desc limit 3
-insert into topthree(top2011) select states from accidents order by in2011 desc limit 3
-insert into topthree(top2012) select states from accidents order by in2012 desc limit 3
-insert into topthree(top2013) select states from accidents order by in2013 desc limit 3
-insert into topthree(top2014) select states from accidents order by in2014 desc limit 3
-insert into topthree(top2015) select states from accidents order by in2015 desc limit 3
+
+
+	WITH A AS (SELECT states, "col2006", ROW_NUMBER() OVER (ORDER BY "col2006" DESC) FROM ACCIDENTS1), 
+	B AS (SELECT states, "col2007", ROW_NUMBER() OVER (ORDER BY "col2007" DESC) FROM ACCIDENTS1),
+	C AS (SELECT states, "col2008", ROW_NUMBER() OVER (ORDER BY "col2008" DESC) FROM ACCIDENTS1), 
+	D AS (SELECT states, "col2009", ROW_NUMBER() OVER (ORDER BY "col2009" DESC) FROM ACCIDENTS1),
+	E AS (SELECT states, "col2010", ROW_NUMBER() OVER (ORDER BY "col2010" DESC) FROM ACCIDENTS1),
+	F AS (SELECT states, "col2011", ROW_NUMBER() OVER (ORDER BY "col2011" DESC) FROM ACCIDENTS1),
+	G AS (SELECT states, "col2012", ROW_NUMBER() OVER (ORDER BY "col2012" DESC) FROM ACCIDENTS1),
+	H AS (SELECT states, "col2013", ROW_NUMBER() OVER (ORDER BY "col2013" DESC) FROM ACCIDENTS1),
+	I AS (SELECT states, "col2014", ROW_NUMBER() OVER (ORDER BY "col2014" DESC) FROM ACCIDENTS1),
+	J AS (SELECT states, "col2015", ROW_NUMBER() OVER (ORDER BY "col2015" DESC) FROM ACCIDENTS1) 
+
+
+
+	SELECT A.states as "In2006", B.states as "In2007", C.STATEs as "In2008", D.STATEs as "IN2009", E.STATEs as "2010", F.STATEs as "2011", G.STATEs as "2012", H.STATEs as "In2013", I.STATEs as "In2014", J.STATEs as "IN2015" FROM A INNER JOIN B ON A.ROW_NUMBER = B.ROW_NUMBER INNER JOIN C ON A.ROW_NUMBER = C.ROW_NUMBER INNER JOIN D ON A.ROW_NUMBER = D.ROW_NUMBER INNER JOIN E ON A.ROW_NUMBER = E.ROW_NUMBER INNER JOIN F ON A.ROW_NUMBER = F.ROW_NUMBER INNER JOIN G ON A.ROW_NUMBER = G.ROW_NUMBER INNER JOIN H ON A.ROW_NUMBER = H.ROW_NUMBER INNER JOIN I ON A.ROW_NUMBER = I.ROW_NUMBER INNER JOIN J ON A.ROW_NUMBER = J.ROW_NUMBER LIMIT 3;
+
+
+	

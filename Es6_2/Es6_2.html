@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#list_area {
+	position: fixed;
+	left: 2%;
+	top: 15%;
+}
+#search_list{
+	position: fixed;
+	right: 10%;
+	top: 10%;
+}
+#root_display {
+	position: fixed;
+	left: 20%;
+	bottom:20%;
+}
+#move_up {
+	position: fixed;
+	left: 15%;
+	top:15%;
+}
+.errors{
+	position: fixed;
+	right:20%;
+	top: 5%;
+	display: none;
+}
+#path {
+	position: fixed;
+	left: 2%;
+	top: 10%;
+}
+</style>
+</head>
+<body>
+		<div class = "display" >	
+		<input id = "name_input" type="text" value="" placeholder = "create">
+		<button id = "create" type = "submit" name="button" onclick="getData()">create file/folder </button>
+		<input id = "search_input" type="text" value="" placeholder = "search">
+		<button id = "search" type = "submit" name="button" onclick="search()">Search</button>
+		<div><strong id = "path"></strong> </div>
+		<div id = "list_area"> Current folder contains: </div>
+		<div id = "search_list"> Search Results are: </div>
+		<div id = "root_display"></div>
+		<div id = "create"></div>
+		<button id = "move_up" type="button" name="button" onclick = "moveUp()">Back</button>
+		</div>
+		<div id = "file_error" class = "errors">Duplicate Name</div>
+		<div id = "empty_name" class = "errors">You should give Name</div>
+</body>
+<script>
+
+
+class Folder {
+	constructor(name, parent = null){
+		this.name =name;
+		this.parent = parent;
+		this.type = 'folder';
+		this.children= [];
+		if(this.parent) {
+			this.path = cur_root.path+'/'+name;
+		}
+		else{
+			this.path = 'root';
+		}
+		paths[this.path] = this;
+		
+	}
+
+addChild(child) {
+	this.children.push(child);
+}
+
+generateList() {
+	
+	if(document.getElementById('display_list')) {
+		document.getElementById('list_area').removeChild(document.getElementById('display_list'));
+	}
+	let list_data = this.children;
+	const list = document.createElement('ul')
+	list.id = 'display_list'
+	for (let i=0; i< list_data.length; i++){
+		const li = document.createElement('li')
+	if(list_data[i].type === 'folder') {
+		li.innerHTML = list_data[i].name;
+		li.addEventListener('click' , listClick);
+	}
+	else{
+		li.innerHTML = list_data[i].name +'.'+list_data[i].extension;
+	}	
+	list.appendChild(li);
+	}
+	document.getElementById('list_area').appendChild(list);
+	}
+
+setRoot(){
+	cur_root = this;
+	cur_root.generateList();
+	document.getElementById('path').innerHTML = 'Current directory is:'+ cur_root.path;
+}
+}
+
+class File {
+	constructor(name , extension , parent){
+		this.name = name;
+		this.extension = extension;
+		this.parent = parent;
+		this.type = 'file';
+		this.path = cur_root.path+'/'+name+'.'+extension;
+		paths[this.path] = this;
+	}
+}
+
+
+const paths = {};
+const root = new Folder('root');
+let cur_root = root;
+document.getElementById('path').innerHTML = 'Current directory is :'+ cur_root.path
+
+
+function getData(){
+	const input_name = document.getElementById('name_input').value;
+	if(input_name === '') {
+		document.getElementById('empty_name').style.display = 'block';
+	}
+	else {
+		if (paths[cur_root.path+'/'+input_name]){
+			document.getElementById('file_error').style.display = 'block';
+		}
+		else{
+			let input_data = input_name.split('.');
+			if(input_data.length-1){
+				let obj = new File (input_data[0], input_data[1], cur_root);
+				cur_root.addChild(obj);
+			}
+			else {
+				let obj = new Folder(input_data[0],cur_root);
+				cur_root.addChild(obj);
+			}
+			cur_root.generateList();
+		}
+	}
+	document.getElementById('name_input').value ='';
+} 
+
+function listClick(){
+	
+	const name = this.innerHTML;
+	console.log(name);
+	for(let i = 0; i<cur_root.children.length; i++) {
+		if(cur_root.children[i].name === name) {
+			cur_root.children[i].setRoot();
+			break;
+		}
+	}
+}
+
+function showSearch(){
+	const path = this.innerHTML;
+	const pathArr = path.split('/');
+
+	while(cur_root.path !== root.path){
+		moveUp();
+		console.log(cur_root);
+	}
+		for(let j = 1; j<= pathArr.length;j++){
+		for(let i = 0; i< cur_root.children.length; i++) {
+		if(cur_root.children[i].name === pathArr[j]) {
+			while(cur_root.path !== path){
+			cur_root.children[i].setRoot();
+			console.log(cur_root);
+		}
+	}
+	}
+	}	
+}
+
+
+function moveUp(){
+	if (cur_root.parent) {
+		cur_root.parent.setRoot()
+
+	}
+}
+
+
+function search(){
+	const searchlist = document.createElement('ul')
+		searchlist.id = 'search_list'
+	const prefix = document.getElementById('search_input').value;
+	for (var property in paths) {
+    if (paths.hasOwnProperty(property) && property.toString().includes(prefix)) {
+		const li = document.createElement('li')
+		li.innerHTML = paths[property].path;
+		li.addEventListener('click' , showSearch);
+		searchlist.appendChild(li);
+	}
+	
+    }
+    document.getElementById('search_list').appendChild(searchlist);
+}
+
+
+
+
+
+
+
+/*let current_dir = root; 
+let current_path = root;
+
+class createFile {
+  constructor (fileName,parent){
+    this.fileName = fileName;
+    this.parent = parent;
+    debugger;
+   return fileName;  
+  }
+  addFiles(){
+  	this.
+  }
+}
+
+class createFolder {
+	constructor (folderName,parent){
+		this.folderName = folderName;
+		this.parent = parent;
+		console.log(folderName);
+	}
+}
+
+function validateAndInsert (){
+const dot = ".";
+let name = document.getElementById('name');
+let name1 = name.value.includes(".");
+
+if(name1){
+   let name2 = new createFile( name.value , current_dir); 
+  	console.log(name.value);
+  	console.log(name2.fileName);
+  	debugger;
+}
+else{
+	let folderName = new createFolder ( name.value , current_dir );
+	debugger;
+}
+}*/
+</script>
+
+
+</html>
+

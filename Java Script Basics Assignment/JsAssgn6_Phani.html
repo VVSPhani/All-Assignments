@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<head>
+<style>
+#footer {
+    	position: fixed;
+    	bottom: 10px;
+    	width: 100%;
+	}
+table {
+	border-collapse: collapse;
+}
+table, th, td {
+	border: 1px solid black;
+}
+</style>
+</head>
+<body>
+<div align="center">
+		<h1>Playlist</h1>
+		<table id="AllTime" style="width:100%">
+<tr>
+	<th>SongName </th>
+	<th>ThemeName </th>
+	<th>Number Of Times Played</th>
+	<th>LastPlayedTime</th>
+</tr>
+</table>
+</div>
+<div align="center">
+		<h1>All Songs</h1>
+		<table id="Recent" style="width:100%">
+		  <tr>
+		    <th>Song Name</th>
+		    <th>Theme Name</th> 
+		    <th>Play</th>
+		   
+		  </tr>
+		  
+		</table>
+	</div>
+
+	 <div id="display"></div>
+
+<div id="footer">
+  <form>
+    <input id="songname"  type="text" placeholder="SongName" />
+    <input id="songtheme" type="text" placeholder="songtheme" />
+     <input id="Init"type="button" value="Submit" onclick="validateAndInsert()" />
+  </form>
+  </div>
+  </body>
+
+<script>
+var num = 0;
+var nums = 0;
+var rowCount = 0;
+var songs  = [];
+var themes   = [];
+
+var playlist 
+var x = document.getElementById("Init");
+var songInput  = document.getElementById("songname");
+var themeInput  = document.getElementById("songtheme");
+x.addEventListener("click", ShowinAllSongs);
+function song(name, theme, counter, lastPlayed) {
+      this.name = name;
+      this.theme = theme;
+      this.counter = counter;
+      this.lastPlayed = lastPlayed;
+    }
+
+function validateAndInsert () {
+	if(songInput.value.length == 0){
+		alert ("empty");
+	}
+	else{
+        songs.push(new song(songInput.value,themeInput.value,0,0));
+       
+}
+}
+
+
+function ShowinAllSongs () {
+  	var element = document.getElementById("Recent");
+  	rowCount = element.rows.length;
+  	var row = element.insertRow(rowCount);
+  	row.id = "row"+num;
+    var cell1 = row.insertCell(0);
+    cell1.id = "cell1"+num;
+    var cell2 = row.insertCell(1);
+    cell2.id = "cell2"+num;
+    var cell3 = row.insertCell(2);
+    cell3.id = "cell3"+num;
+    cell1.innerHTML = songInput.value;
+    cell2.innerHTML = themeInput.value;
+    var element2 = document.createElement("button");
+			element2.type = "button";
+			element2.id = "button"+num;
+	element2.innerHTML = 'PLAY'
+	element2.addEventListener('click', runTimer);
+    element2.addEventListener("click" , counter);
+    element2.addEventListener("click" , updatePlaylist);
+	cell3.appendChild(element2);
+	num++;
+	console.log(num)
+
+}
+
+	function runTimer() {
+
+ 		var id = this.getAttribute('id');
+        var timeleft = 0;
+        var downloadTimer = setInterval(function(){
+        timeleft++;
+        document.getElementById(id).innerHTML = timeleft;
+        if(timeleft == 5){
+          clearInterval(downloadTimer);
+        document.getElementById(id).innerHTML = 'PLAY';
+    }
+	},1000);
+    }
+
+    /*function addPlayList() {
+    	var id = this.getAttribute('id');
+    	var tag = id.slice(6);
+    	
+    	var element1 = document.getElementById("AllTime")
+    	var rowCount1 = element1.rows.length;
+
+    if(document.getElementById("row1"+tag)== null){
+    	var row1   = element1.insertRow(1);
+    	row1.id = "row1"+tag;
+    	var cell11 = row1.insertCell(0);
+    	cell11.id = "cell11"+nums;
+    	var cell21 = row1.insertCell(1);
+   		 cell21.id = "cell21"+nums;
+   		var cell31 = row1.insertCell(2);
+    	cell31.id = "cell31"+nums;
+    	var cell41 = row1.insertCell(3);
+    	cell41.id = "cell41"+nums;
+    	nums++;
+    	cell11.innerHTML = document.getElementById("cell1"+tag).innerHTML; 
+    	cell21.innerHTML = document.getElementById("cell1"+tag).innerHTML;	
+    	cell31.innerHTML = 1;
+    	cell41.innerHTML = Date();
+    	console.log(tag);
+    	console.log(nums);
+    }
+}*/
+
+    function counter()
+   {
+      var id = this.getAttribute('id');
+      var row = id.slice(6);
+      songs[row].lastPlayed = Date();
+      songs[row].counter += 1;
+
+      playlist = songs.slice().sort (function(a, b) {
+      return b.counter - a.counter || b.lastPlayed > a.lastPlayed});
+
+   }
+
+    function updatePlaylist(){
+
+        var table = document.getElementById("AllTime");
+        var rowCount = table.rows.length;
+        var z = rowCount;
+        if (rowCount > 1)
+        {
+            for (var i = 1; i < z; i++) 
+            table.deleteRow(1);
+             
+             }
+
+        var numberOfSongs = playlist.length
+        if (numberOfSongs <= 4)
+          limit = numberOfSongs;
+        else
+          limit = 4;
+
+        for (var i =0; i < limit; i++)
+        {
+           var table = document.getElementById("AllTime");
+           var row = table.insertRow(i+1);
+
+           if (playlist[i].counter> 0)
+           {
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            var cell3 = row.insertCell(2);
+            var cell4 = row.insertCell(3);
+
+            cell1.innerHTML = playlist[i].name;
+            cell2.innerHTML = playlist[i].theme;
+            cell3.innerHTML = playlist[i].counter;
+            cell4.innerHTML = playlist[i].lastPlayed;
+           }  
+        }
+    }
+
+
+</script>
+</html>
+

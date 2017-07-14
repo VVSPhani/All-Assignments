@@ -1,0 +1,16 @@
+<h1> Details </h1>
+<%= link_to 'Add New Skill', new_skill_path %>  
+
+
+<table>
+<tr>
+  <th>Skill_Name:</th>
+</tr>  
+  
+<tr>
+  <td> <%= @skill.skill_name%></td>
+ </tr>
+ </table>
+
+<br><%= link_to 'Edit', edit_skill_path(@skill) %></br>  
+<br><%= link_to 'Back', skills_path %> </br>

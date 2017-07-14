@@ -1,0 +1,43 @@
+<%= form_for @employee do |f| %>
+ 
+  <% if @employee.errors.any? %>
+    <div id="error_explanation">
+      <h2>
+        <%= pluralize(@employee.errors.count, "error") %> prohibited
+        this employee from being saved:
+      </h2>
+      <ul>
+        <% @employee.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+ 
+  <p>
+    <%= f.label :Employee_Name%><br>
+    <%= f.text_field :EmpName %>
+  </p>
+ <p>
+    <%= f.label :Skills %><br>
+    <%= f.collection_check_boxes :skill_ids,Skill.all, :id, :skill_name do |m| %>
+  <%= m.check_box %> <%= m.label %>
+  <% end %>
+  <p>
+    <%= f.label :Team_Lead %><br>
+    
+  <%= f.collection_select(:team_lead_id, TeamLead.all, :id, :team_lead_name, :prompt => 'Team Lead')%>
+  </p>
+  <p>
+    <%= f.label :project_name %><br>
+    
+  <%= f.collection_select(:project_id, Project.all, :id, :project_name, :prompt => 'Project name')%>
+  </p>
+
+    
+ </p>
+  <p>
+    <%= f.submit %>
+  </p>
+ 
+<% end %>

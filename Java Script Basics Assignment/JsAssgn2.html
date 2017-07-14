@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+body {
+	background-color: grey;
+}
+div {
+    display: block;
+}
+
+#first{
+	position: fixed;
+    top: 15%;
+    left: 10%;
+    width: 80%;
+    height:70%;
+    background-color: green;
+}
+
+#second{
+	position:fixed;
+    top: 33%;
+    left: 20%;
+    width: 20%;
+    height: 33%;
+    background: yellow;
+}
+
+#third{
+	position: fixed;
+	top: 33%;
+	right: 20%;
+    width: 20%;
+    height: 33%;
+    background: blue;
+}
+#cbox1{
+	position: relative;
+	top: 30%;
+	left: 35%;
+	width: 10%;
+	height: 10%;
+
+}
+#cbox2{
+
+	position: relative;
+	top: 60%;
+	left: 22%;
+	width: 10%;
+	height: 10%;
+}
+#cbox3{
+
+	position: relative;
+	top: 30%;
+	right: -25%;
+	width: 10%;
+	height: 10%;
+}
+#cbox4{
+
+	position: relative;
+	top: 60%;
+	right: -12%;
+	width: 10%;
+	height: 10%;
+}
+
+
+</style>
+</head>
+<body>
+    
+    <div id="first">cd</div>
+    <div id="second">scc
+        <input type="checkbox" id="cbox1">
+    	<input type="checkbox" id="cbox2">
+    </div>
+    <div id="third">asdfadf
+    <input type="checkbox" id="cbox3">
+    <input type="checkbox" id="cbox4">
+    </div>
+   </div>
+
+<script>
+var swap = 1;
+var colors = ['red', 'blue', 'green' , 'yellow' , 'pink', 'coral' , 'aqua', 'violet' , 'grey' , 'lime' , 'maroon' , 'navy' , 'brown'];
+  
+function changeBackground() {
+       document.body.style.backgroundColor = colors[Math.floor(Math.random()*colors.length)];
+    }  
+
+function checkAll() {
+	document.getElementById('cbox1').checked = true
+	document.getElementById('cbox2').checked = true
+	document.getElementById('cbox3').checked = true
+	document.getElementById('cbox4').checked = true
+
+} 
+function block2Click(){
+	document.getElementById('cbox1').checked = true
+	document.getElementById('cbox2').checked = true
+	document.getElementById('cbox3').checked = false
+	document.getElementById('cbox4').checked = false
+}
+function block3Click(){
+	document.getElementById('cbox1').checked = false
+	document.getElementById('cbox2').checked = false
+	document.getElementById('cbox3').checked = true
+	document.getElementById('cbox4').checked = true
+}
+function swapColor() {
+  if (swap) {
+    document.getElementById('second').style.backgroundColor = "blue";
+    document.getElementById('third').style.backgroundColor = "yellow";
+    swap = 0;
+  } else {
+    document.getElementById('second').style.backgroundColor = "yellow";
+    document.getElementById('third').style.backgroundColor = "blue"
+    swap = 1;
+  }
+}
+
+document.getElementById('first').addEventListener('click', checkAll)
+document.getElementById('second').addEventListener('click', block2Click)
+document.getElementById('third').addEventListener('click', block3Click)
+window.addEventListener('click', changeBackground)
+document.getElementById('second').addEventListener('click', swapColor)
+document.getElementById('third').addEventListener('click', swapColor)
+
+</script>
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+
+<p>
+<% @team_lead.each do |team_lead|%>
+  <strong>Team_Lead:</strong>
+  <%= team_lead.team_lead_name %>
+</p>
+<table>
+  <tr>
+    <th> Employee </th> <th> Skills </th>
+  </tr>
+    <% team_lead.employees.sort{|a,b| b.skills.count <=> a.skills.count }.each do |employee| %>
+  <tr>
+    <td> <%= employee.EmpName %> </td> <td> <%= employee.skills.count %> </td>
+  </tr>
+  <% end %>
+</table>
+<% end %>
+<%= link_to 'Create new Employee', new_employee_path %>
+<p><%= link_to 'back to list', team_leads_path %></p>
