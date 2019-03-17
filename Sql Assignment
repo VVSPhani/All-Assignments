@@ -4,8 +4,8 @@
       create table items  (id int primary key,  item_name text, price text );
 
 1_B. Adding Values to the tables
-      copy customers from '/home/kaushik/kaushik/postgres/data.csv' delimiter ' ' csv;
-      copy items from '/home/kaushik/kaushik/postgres/data_2.csv' delimiter ' ' csv;
+      copy customers from '/home/vvs/vvs/postgres/data.csv' delimiter ' ' csv;
+      copy items from '/home/vvs/vvs/postgres/data_2.csv' delimiter ' ' csv;
 
 2. Put a constraint on customers table where email should be unique
       alter table customers add constraint unique_email unique(email);
@@ -42,8 +42,6 @@
       select names from customers where address !='hyd';
 12. Get the number of items in items table.
       select count(item_name) from items;
-
-      asdfs
 13. Get the total price of all items
       select sum(price) from items;
 14. Get average price of all items
